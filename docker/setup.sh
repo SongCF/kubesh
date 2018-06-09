@@ -46,8 +46,15 @@ WantedBy=multi-user.target
 EOF
 
 systemctl daemon-reload
-systemctl enable docker
+echo "##Service status: docker"
+systemctl status docker
+echo "##Service restart: docker"
 systemctl restart docker
+echo "##Service status: docker"
+systemctl status docker
+
+echo "##Service enabled: docker"
+systemctl enable docker
 
 echo "## docker version"
 docker version
