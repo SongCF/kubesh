@@ -16,18 +16,20 @@ mkdir -p ${WORK_DIR}
 cat <<EOF >/usr/lib/systemd/system/docker.service
 [Unit]
 Description=Docker Application Container Engine
-Documentation=http://docs.docker.com
-After=network.target docker.socket
+Documentation=https://docs.docker.com
+After=network.target docker.socket firewalld.service
+Requires=docker.socket
+
 [Service]
 Type=notify
-EnvironmentFile=-${WORK_DIR}/docker.conf
-ExecStart=/usr/bin/dockerd \
-                -H tcp://0.0.0.0:4243 \
-                -H unix:///var/run/docker.sock
-
+# the default is not to use systemd for cgroups because the delegate issues still
+# exists and systemd currently does not support the cgroup feature set required
+# for containers run by docker
+ExecStart=/usr/bin/dockerd -H fd://
+ExecReload=/bin/kill -s HUP $MAINPID
+LimitNOFILE=1048576
 # Having non-zero Limit*s causes performance problems due to accounting overhead
 # in the kernel. We recommend using cgroups to do container-local accounting.
-LimitNOFILE=infinity
 LimitNPROC=infinity
 LimitCORE=infinity
 # Uncomment TasksMax if your systemd version supports it.
@@ -38,15 +40,12 @@ TimeoutStartSec=0
 Delegate=yes
 # kill only the docker process, not all processes in the cgroup
 KillMode=process
-Restart=on-failure
+
 [Install]
 WantedBy=multi-user.target
 EOF
 
 systemctl daemon-reload
-
-systemctl status docker
-
 systemctl enable docker
 systemctl restart docker
 
