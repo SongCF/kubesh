@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOCKER_DIR=./etcd-download
+DOCKER_DIR=./docker-download
 WORK_DIR=/data/docker
 
 
