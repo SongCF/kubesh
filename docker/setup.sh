@@ -12,12 +12,28 @@ mkdir -p ${WORK_DIR}
 
 
 
+cat <<EOF >/usr/lib/systemd/system/docker.docket
+[Unit]
+Description=Docker Socket for the API
+PartOf=docker.service
+
+[Socket]
+ListenStream=/var/run/docker.sock
+SocketMode=0660
+SocketUser=root
+SocketGroup=docker
+
+[Install]
+WantedBy=sockets.target
+EOF
+
 
 cat <<EOF >/usr/lib/systemd/system/docker.service
 [Unit]
 Description=Docker Application Container Engine
 Documentation=https://docs.docker.com
-After=network.target docker.socket firewalld.service
+After=network-online.target docker.socket firewalld.service
+Wants=network-online.target
 Requires=docker.socket
 
 [Service]
@@ -40,21 +56,16 @@ TimeoutStartSec=0
 Delegate=yes
 # kill only the docker process, not all processes in the cgroup
 KillMode=process
+# restart the docker process if it exits prematurely
+Restart=on-failure
+StartLimitBurst=3
+StartLimitInterval=60s
 
 [Install]
 WantedBy=multi-user.target
 EOF
 
 systemctl daemon-reload
-echo "##Service status: docker"
-systemctl status docker
-echo "##Service restart: docker"
 systemctl restart docker
-echo "##Service status: docker"
-systemctl status docker
-
-echo "##Service enabled: docker"
 systemctl enable docker
-
-echo "## docker version"
 docker version
