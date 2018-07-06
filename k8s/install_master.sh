@@ -46,4 +46,4 @@ bash conf/kube-scheduler.sh ${MASTER_ADDRESS}
 echo "set proxy ..."
 bash conf/kube-proxy.sh ${MASTER_ADDRESS} ${NODE_IP}
 
-echo "install success ..."
+echo "setup end."
