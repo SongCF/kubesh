@@ -12,7 +12,7 @@ mkdir -p ${WORK_DIR}
 
 
 
-cat <<EOF >/usr/lib/systemd/system/docker.docket
+cat <<EOF >/usr/lib/systemd/system/docker.socket
 [Unit]
 Description=Docker Socket for the API
 PartOf=docker.service
