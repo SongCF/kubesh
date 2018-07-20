@@ -24,20 +24,20 @@ ADMISSION_CONTROL="NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAcc
 
 # apiserver.conf  
 cat <<EOF >/data/kubernetes/config/kube-apiserver.conf
-KUBE_API_ARGS="\
- --storage-backend=etcd3 \
- --etcd-servers=${ETCD_SERVERS} \
- --advertise-address=${MASTER_ADDRESS} \
- --insecure-bind-address=0.0.0.0 \
- --bind-address=0.0.0.0 \
- --insecure-port=6443 \
- --service-cluster-ip-range=${SERVICE_CLUSTER_IP_RANGE} \
- --service-node-port-range=1-65535 \
- --enable-admission-plugins=NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,DefaultStorageClass,ResourceQuota \
- --allow-privileged=false \
- --logtostderr=true \
- --log-dir=/data/kubernetes/log \
- --v=2"
+KUBE_API_ARGS=" \
+--storage-backend=etcd3 \
+--etcd-servers=${ETCD_SERVERS} \
+--advertise-address=${MASTER_ADDRESS} \
+--insecure-bind-address=0.0.0.0 \
+--bind-address=0.0.0.0 \
+--insecure-port=6443 \
+--service-cluster-ip-range=${SERVICE_CLUSTER_IP_RANGE} \
+--service-node-port-range=1-65535 \
+--enable-admission-plugins=NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,DefaultStorageClass,ResourceQuota \
+--allow-privileged=false \
+--logtostderr=true \
+--log-dir=/data/kubernetes/log \
+--v=2"
 EOF
 
 
