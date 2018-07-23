@@ -25,32 +25,33 @@ systemctl stop kube-proxy.service >/dev/null 2>&1
 cp ${DOWNLOAD_DIR}/server/bin/kube-apiserver /usr/bin/
 cp ${DOWNLOAD_DIR}/server/bin/kube-controller-manager /usr/bin/
 cp ${DOWNLOAD_DIR}/server/bin/kube-scheduler /usr/bin/
+cp ${DOWNLOAD_DIR}/server/bin/kubelet /usr/bin/
 cp ${DOWNLOAD_DIR}/server/bin/kube-proxy /usr/bin/
 cp ${DOWNLOAD_DIR}/server/bin/kubectl /usr/bin/
 
 
 
-echo "\n\n\n--------------------------------------------------\n"
+echo -e "\n\n\n--------------------------------------------------\n"
 echo "set  apiserver ..."
 bash conf/kube-apiserver.sh ${MASTER_ADDRESS} ${ETCD_SERVERS}
 
 sleep 5s
 
-echo "\n\n\n--------------------------------------------------\n"
+echo -e "\n\n\n--------------------------------------------------\n"
 echo "set  controller-manager ..."
 bash conf/kube-controller-manager.sh ${MASTER_ADDRESS}
 
-echo "\n\n\n--------------------------------------------------\n"
+echo -e "\n\n\n--------------------------------------------------\n"
 echo "set  scheduler ..."
 bash conf/kube-scheduler.sh ${MASTER_ADDRESS}
 
-echo "\n\n\n--------------------------------------------------\n"
+echo -e "\n\n\n--------------------------------------------------\n"
 echo "bash conf/kubelet.sh ${MASTER_ADDRESS} ${NODE_IP}"
 bash conf/kubelet.sh ${MASTER_ADDRESS} ${NODE_IP}
 
-echo "\n\n\n--------------------------------------------------\n"
+echo -e "\n\n\n--------------------------------------------------\n"
 echo "set  proxy ..."
 bash conf/kube-proxy.sh ${MASTER_ADDRESS} ${NODE_IP}
 
-echo "\n\n\n--------------------------------------------------\n"
+echo -e "\n\n\n--------------------------------------------------\n"
 echo "setup end."

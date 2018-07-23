@@ -19,8 +19,8 @@ rm -rf ${WORK_DIR}
 mkdir -p ${WORK_DIR}/config
 systemctl stop kube-proxy.service >/dev/null 2>&1
 systemctl stop kubelet.service >/dev/null 2>&1
-cp ${DOWNLOAD_DIR}/server/bin/kube-proxy /usr/bin/
 cp ${DOWNLOAD_DIR}/server/bin/kubelet /usr/bin/
+cp ${DOWNLOAD_DIR}/server/bin/kube-proxy /usr/bin/
 cp ${DOWNLOAD_DIR}/server/bin/kubectl /usr/bin/
 
 
