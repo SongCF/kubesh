@@ -38,6 +38,7 @@ KUBELET_ARGS=" \
 --kubeconfig=/data/kubernetes/config/kubeconfig.conf \
 --cluster-dns=${DNS_SERVER_IP} \
 --cluster-domain=${DNS_DOMAIN} \
+--fail-swap-on=false \
 --logtostderr=true \
 --log-dir=/data/kubernetes/log \
 --v=2"
@@ -61,6 +62,7 @@ ExecStart=/usr/bin/kubelet \
 --kubeconfig=/data/kubernetes/config/kubeconfig.conf \
 --cluster-dns=${DNS_SERVER_IP} \
 --cluster-domain=${DNS_DOMAIN} \
+--fail-swap-on=false \
 --logtostderr=true \
 --log-dir=/data/kubernetes/log \
 --v=2
@@ -74,3 +76,4 @@ EOF
 systemctl daemon-reload
 systemctl enable kubelet
 systemctl restart kubelet
+systemctl status kubelet

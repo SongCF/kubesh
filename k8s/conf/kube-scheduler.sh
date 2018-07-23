@@ -45,3 +45,4 @@ EOF
 systemctl daemon-reload
 systemctl enable kube-scheduler
 systemctl restart kube-scheduler
+systemctl status kube-scheduler

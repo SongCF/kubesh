@@ -55,3 +55,4 @@ EOF
 systemctl daemon-reload
 systemctl enable kube-proxy
 systemctl restart kube-proxy
+systemctl status kube-proxy
