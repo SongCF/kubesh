@@ -22,11 +22,12 @@ fi
 
 # proxy conf
 cat <<EOF >/data/kubernetes/config/kube-proxy.conf
-KUBE_MASTER="--master=http://${MASTER_ADDRESS}:6443"
-NODE_HOSTNAME="--hostname-override=${NODE_IP}"
-KUBE_LOGTOSTDERR="--logtostderr=true"
-KUBE_LOG_DIR="--log-dir=/data/kubernetes/log"
-KUBE_LOG_LEVEL="--v=2"
+KUBE_PROXY_ARGS=" \
+--master=http://${MASTER_ADDRESS}:6444 \
+--hostname-override=${NODE_IP} \
+--logtostderr=true \
+--log-dir=/data/kubernetes/log \
+--v=2"
 EOF
 
 
@@ -38,12 +39,12 @@ After=network.target
 
 [Service]
 EnvironmentFile=/data/kubernetes/config/kube-proxy.conf
-ExecStart=/usr/local/kubernetes/bin/kube-proxy \\
-    \${KUBE_MASTER}         \\
-    \${NODE_HOSTNAME}       \\
-    \${KUBE_LOGTOSTDERR}    \\
-    \${KUBE_LOG_DIR}        \\
-    \${KUBE_LOG_LEVEL}
+ExecStart=/usr/local/kubernetes/bin/kube-proxy \
+--master=http://${MASTER_ADDRESS}:6444 \
+--hostname-override=${NODE_IP} \
+--logtostderr=true \
+--log-dir=/data/kubernetes/log \
+--v=2
 Restart=on-failure
 LimitNOFILE=65536
 

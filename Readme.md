@@ -3,8 +3,8 @@
 1.更改 node_ip.sh 脚本
 
 
-serviced 配置
-# http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html
+# serviced 配置
+http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html
 
 
 # k8s adm 安装脚本

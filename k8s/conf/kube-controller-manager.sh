@@ -12,10 +12,11 @@ fi
 
 # controller-manager conf
 cat <<EOF >/data/kubernetes/config/kube-controller-manager.conf
-KUBE_MASTER="--master=http://${MASTER_ADDRESS}:6443"
-KUBE_LOGTOSTDERR="--logtostderr=true"
-KUBE_LOG_DIR="--log-dir=/data/kubernetes/log"
-KUBE_LOG_LEVEL="--v=2"
+KUBE_CTL_MGR_ARGS=" \
+--master=http://${MASTER_ADDRESS}:6444 \
+--logtostderr=true \
+--log-dir=/data/kubernetes/log \
+--v=2"
 EOF
 
 
@@ -29,11 +30,11 @@ Requires=kube-apiserver.service
 
 [Service]
 EnvironmentFile=/data/kubernetes/config/kube-controller-manager.conf
-ExecStart=/usr/local/kubernetes/bin/kube-controller-manager \\
-    \${KUBE_MASTER}                     \\
-    \${KUBE_LOGTOSTDERR}                \\
-    \${KUBE_LOG_DIR}                    \\
-    \${KUBE_LOG_LEVEL}                  
+ExecStart=/usr/local/kubernetes/bin/kube-controller-manager \
+--master=http://${MASTER_ADDRESS}:6444 \
+--logtostderr=true \
+--log-dir=/data/kubernetes/log \
+--v=2                
 Restart=on-failure
 LimitNOFILE=65536
 

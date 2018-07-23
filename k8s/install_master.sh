@@ -29,9 +29,6 @@ cp ${DOWNLOAD_DIR}/server/bin/kubectl /usr/bin/
 
 
 
-echo "set  kubeconfig ..."
-bash conf/kubeconfig.sh ${MASTER_ADDRESS}
-
 echo "set  apiserver ..."
 bash conf/kube-apiserver.sh ${MASTER_ADDRESS} ${ETCD_SERVERS}
 
@@ -43,7 +40,10 @@ bash conf/kube-controller-manager.sh ${MASTER_ADDRESS}
 echo "set  scheduler ..."
 bash conf/kube-scheduler.sh ${MASTER_ADDRESS}
 
-echo "set proxy ..."
+echo "set  kubelet ..."
+bash conf/kubelet.sh ${MASTER_ADDRESS} ${NODE_IP}
+
+echo "set  proxy ..."
 bash conf/kube-proxy.sh ${MASTER_ADDRESS} ${NODE_IP}
 
 echo "setup end."

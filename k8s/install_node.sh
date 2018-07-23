@@ -25,11 +25,8 @@ cp ${DOWNLOAD_DIR}/server/bin/kubectl /usr/bin/
 
 
 
-echo "set  kubeconfig ..."
-bash conf/kubeconfig.sh ${MASTER_ADDRESS}
-
 echo "set  kubelet ..."
-bash conf/kubelet.sh ${NODE_IP}
+bash conf/kubelet.sh ${MASTER_ADDRESS} ${NODE_IP}
 
 echo "set proxy ..."
 bash conf/kube-proxy.sh ${MASTER_ADDRESS} ${NODE_IP}

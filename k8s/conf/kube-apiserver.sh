@@ -36,6 +36,7 @@ KUBE_API_ARGS=" \
 --service-cluster-ip-range=${SERVICE_CLUSTER_IP_RANGE} \
 --service-node-port-range=1-65535 \
 --enable-admission-plugins=${ADMISSION_CONTROL} \
+--allow-privileged=false \
 --logtostderr=true \
 --log-dir=/data/kubernetes/log \
 --v=2"

@@ -10,7 +10,7 @@ if [ ! $MASTER_ADDRESS ]; then
 fi
 
 
-KUBE_APISERVER="http://${MASTER_ADDRESS}:6443"
+KUBE_APISERVER="http://${MASTER_ADDRESS}:6444"
 
 # 设置集群参数
 kubectl config set-cluster default-cluster \
