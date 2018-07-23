@@ -22,18 +22,17 @@ SERVICE_CLUSTER_IP_RANGE="192.168.0.0/16"
 ADMISSION_CONTROL="NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,DefaultStorageClass,ResourceQuota"
 
 
-# apiserver.conf  
+# apiserver.conf          
 cat <<EOF >/data/kubernetes/config/kube-apiserver.conf
 KUBE_API_ARGS=" \
 --storage-backend=etcd3 \
 --etcd-servers=${ETCD_SERVERS} \
---advertise-address=${MASTER_ADDRESS} \
---insecure-bind-address=0.0.0.0 \
 --bind-address=0.0.0.0 \
---insecure-port=6443 \
+--secure-port=6443 \
+--kubelet-port=10250 \
 --service-cluster-ip-range=${SERVICE_CLUSTER_IP_RANGE} \
 --service-node-port-range=1-65535 \
---enable-admission-plugins=NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,DefaultStorageClass,ResourceQuota \
+--enable-admission-plugins=${ADMISSION_CONTROL} \
 --allow-privileged=false \
 --logtostderr=true \
 --log-dir=/data/kubernetes/log \
@@ -51,7 +50,7 @@ After=etcd.service
 
 [Service]
 EnvironmentFile=/data/kubernetes/config/kube-apiserver.conf
-ExecStart=/usr/bin/kube-apiserver \${KUBE_API_ARGS}
+ExecStart=/usr/bin/kube-apiserver $KUBE_API_ARGS
 Restart=on-failure
 Type=notify
 LimitNOFILE=65536
