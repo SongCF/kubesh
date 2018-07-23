@@ -21,7 +21,7 @@ fi
 
 # config
 echo "kubeconfig..."
-bash ./kubeconfig.sh ${MASTER_ADDRESS}
+bash ./conf/kubeconfig.sh ${MASTER_ADDRESS}
 
 
 #TODO 
