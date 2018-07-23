@@ -24,8 +24,7 @@ ADMISSION_CONTROL="NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAcc
 
 # apiserver.conf
 mkdir -p /etc/kubernetes/
-#cat <<EOF >/data/kubernetes/config/kube-apiserver.conf
-cat <<EOF >/etc/kubernetes/kube-apiserver.conf
+cat <<EOF >/data/kubernetes/config/kube-apiserver.conf
 KUBE_API_ARGS=" \
 --storage-backend=etcd3 \
 --etcd-servers=${ETCD_SERVERS} \
@@ -52,8 +51,7 @@ After=network.target
 After=etcd.service
 
 [Service]
-# EnvironmentFile=/data/kubernetes/config/kube-apiserver.conf
-EnvironmentFile=/etc/kubernetes/kube-apiserver.conf
+EnvironmentFile=/data/kubernetes/config/kube-apiserver.conf
 ExecStart=/usr/bin/kube-apiserver \
 --storage-backend=etcd3 \
 --etcd-servers=${ETCD_SERVERS} \

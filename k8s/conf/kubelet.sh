@@ -29,7 +29,7 @@ DNS_SERVER_IP=192.168.0.2
 DNS_DOMAIN=cluster.default-cluster
 
 # kebelet conf
-cat <<EOF >/usr/local/kubernetes/config/kubelet.conf
+cat <<EOF >/data/kubernetes/config/kubelet.conf
 KUBELET_ARGS=" \
 --address=0.0.0.0 \
 --port=10250 \
