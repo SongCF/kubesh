@@ -30,7 +30,7 @@ Requires=kube-apiserver.service
 
 [Service]
 EnvironmentFile=/data/kubernetes/config/kube-scheduler.conf
-ExecStart=/usr/local/kubernetes/bin/kube-scheduler \
+ExecStart=/usr/bin/kube-scheduler \
 --master=http://${MASTER_ADDRESS}:6444 \
 --logtostderr=true \
 --log-dir=/data/kubernetes/log \

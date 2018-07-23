@@ -30,7 +30,7 @@ Requires=kube-apiserver.service
 
 [Service]
 EnvironmentFile=/data/kubernetes/config/kube-controller-manager.conf
-ExecStart=/usr/local/kubernetes/bin/kube-controller-manager \
+ExecStart=/usr/bin/kube-controller-manager \
 --master=http://${MASTER_ADDRESS}:6444 \
 --logtostderr=true \
 --log-dir=/data/kubernetes/log \

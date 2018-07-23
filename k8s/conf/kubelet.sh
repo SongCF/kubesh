@@ -53,7 +53,7 @@ Requires=docker.service
 
 [Service]
 EnvironmentFile=/data/kubernetes/config/kubelet.conf
-ExecStart=/usr/local/kubernetes/bin/kubelet \
+ExecStart=/usr/bin/kubelet \
 --address=0.0.0.0 \
 --port=10250 \
 --hostname-override=${NODE_IP} \

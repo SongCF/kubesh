@@ -39,7 +39,7 @@ After=network.target
 
 [Service]
 EnvironmentFile=/data/kubernetes/config/kube-proxy.conf
-ExecStart=/usr/local/kubernetes/bin/kube-proxy \
+ExecStart=/usr/bin/kube-proxy \
 --master=http://${MASTER_ADDRESS}:6444 \
 --hostname-override=${NODE_IP} \
 --logtostderr=true \
