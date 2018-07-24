@@ -6,8 +6,8 @@ k8s集群安装脚本
 
 # 使用方法
 1. 更改 `node_ip.sh` 脚本中的网卡名字，该脚本用于识别本机IP，你的集群使用内网或外网IP需要改为对应的网卡名称
-2. 安装Etcd集群，参考 etcd/readme.md
-3. 安装Docker，参考 docker/readme.md
+2. 安装Etcd集群，步骤参考 etcd/readme.md
+3. 安装Docker，步骤参考 docker/readme.md
 4. 安装k8s集群，步骤参考 k8s/readme.md
 
 
