@@ -21,6 +21,7 @@ mkdir -p ${WORK_DIR}/log
 systemctl stop kube-apiserver.service >/dev/null 2>&1
 systemctl stop kube-controller-manager.service >/dev/null 2>&1
 systemctl stop kube-scheduler.service >/dev/null 2>&1
+systemctl stop kubelet.service >/dev/null 2>&1
 systemctl stop kube-proxy.service >/dev/null 2>&1
 cp ${DOWNLOAD_DIR}/server/bin/kube-apiserver /usr/bin/
 cp ${DOWNLOAD_DIR}/server/bin/kube-controller-manager /usr/bin/
