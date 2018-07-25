@@ -14,7 +14,7 @@ fi
 cat <<EOF >/data/kubernetes/config/kube-scheduler.conf
 KUBE_SCHEDULER_ARGS=" \
 --master=http://${MASTER_ADDRESS}:6444 \
---logtostderr=true \
+--logtostderr=false \
 --log-dir=/data/kubernetes/log \
 --v=2"
 EOF
@@ -32,7 +32,7 @@ Requires=kube-apiserver.service
 EnvironmentFile=/data/kubernetes/config/kube-scheduler.conf
 ExecStart=/usr/bin/kube-scheduler \
 --master=http://${MASTER_ADDRESS}:6444 \
---logtostderr=true \
+--logtostderr=false \
 --log-dir=/data/kubernetes/log \
 --v=2
 Restart=on-failure

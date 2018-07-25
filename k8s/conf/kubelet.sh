@@ -39,7 +39,7 @@ KUBELET_ARGS=" \
 --cluster-dns=${DNS_SERVER_IP} \
 --cluster-domain=${DNS_DOMAIN} \
 --fail-swap-on=false \
---logtostderr=true \
+--logtostderr=false \
 --log-dir=/data/kubernetes/log \
 --v=2"
 EOF
@@ -63,7 +63,7 @@ ExecStart=/usr/bin/kubelet \
 --cluster-dns=${DNS_SERVER_IP} \
 --cluster-domain=${DNS_DOMAIN} \
 --fail-swap-on=false \
---logtostderr=true \
+--logtostderr=false \
 --log-dir=/data/kubernetes/log \
 --v=2
 Restart=on-failure

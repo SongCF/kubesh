@@ -25,7 +25,7 @@ cat <<EOF >/data/kubernetes/config/kube-proxy.conf
 KUBE_PROXY_ARGS=" \
 --master=http://${MASTER_ADDRESS}:6444 \
 --hostname-override=${NODE_IP} \
---logtostderr=true \
+--logtostderr=false \
 --log-dir=/data/kubernetes/log \
 --v=2"
 EOF
@@ -42,7 +42,7 @@ EnvironmentFile=/data/kubernetes/config/kube-proxy.conf
 ExecStart=/usr/bin/kube-proxy \
 --master=http://${MASTER_ADDRESS}:6444 \
 --hostname-override=${NODE_IP} \
---logtostderr=true \
+--logtostderr=false \
 --log-dir=/data/kubernetes/log \
 --v=2
 Restart=on-failure

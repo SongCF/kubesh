@@ -14,7 +14,7 @@ fi
 cat <<EOF >/data/kubernetes/config/kube-controller-manager.conf
 KUBE_CTL_MGR_ARGS=" \
 --master=http://${MASTER_ADDRESS}:6444 \
---logtostderr=true \
+--logtostderr=false \
 --log-dir=/data/kubernetes/log \
 --v=2"
 EOF
@@ -32,7 +32,7 @@ Requires=kube-apiserver.service
 EnvironmentFile=/data/kubernetes/config/kube-controller-manager.conf
 ExecStart=/usr/bin/kube-controller-manager \
 --master=http://${MASTER_ADDRESS}:6444 \
---logtostderr=true \
+--logtostderr=false \
 --log-dir=/data/kubernetes/log \
 --v=2                
 Restart=on-failure

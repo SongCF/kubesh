@@ -36,7 +36,7 @@ KUBE_API_ARGS=" \
 --service-node-port-range=1-65535 \
 --enable-admission-plugins=${ADMISSION_CONTROL} \
 --allow-privileged=false \
---logtostderr=true \
+--logtostderr=false \
 --log-dir=/data/kubernetes/log \
 --v=2"
 EOF
@@ -62,7 +62,7 @@ ExecStart=/usr/bin/kube-apiserver \
 --service-cluster-ip-range=${SERVICE_CLUSTER_IP_RANGE} \
 --service-node-port-range=1-65535 \
 --enable-admission-plugins=${ADMISSION_CONTROL} \
---logtostderr=true \
+--logtostderr=false \
 --log-dir=/data/kubernetes/log \
 --v=2
 Restart=on-failure
