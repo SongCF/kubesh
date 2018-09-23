@@ -1,6 +1,7 @@
 #!/bin/bash
 
 
+source define.sh
 
 # 1 
 # master address
@@ -20,16 +21,6 @@ if [ ! $NODE_IP ]; then
 fi
 
 
-# proxy conf
-cat <<EOF >/data/kubernetes/config/kube-proxy.conf
-KUBE_PROXY_ARGS=" \
---master=http://${MASTER_ADDRESS}:6444 \
---hostname-override=${NODE_IP} \
---logtostderr=false \
---log-dir=/data/kubernetes/log \
---v=2"
-EOF
-
 
 # proxy service
 cat <<EOF >/usr/lib/systemd/system/kube-proxy.service
@@ -38,12 +29,11 @@ Description=Kubernetes Proxy
 After=network.target
 
 [Service]
-EnvironmentFile=/data/kubernetes/config/kube-proxy.conf
 ExecStart=/usr/bin/kube-proxy \
---master=http://${MASTER_ADDRESS}:6444 \
+--master=http://${MASTER_ADDRESS}:${APISERVER_INSECURE_PORT} \
 --hostname-override=${NODE_IP} \
 --logtostderr=false \
---log-dir=/data/kubernetes/log \
+--log-dir=${LOG_DIR} \
 --v=2
 Restart=on-failure
 LimitNOFILE=65536

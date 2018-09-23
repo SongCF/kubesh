@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-bash config.sh "$1" master 
+bash systemd_service.sh "$1" master 

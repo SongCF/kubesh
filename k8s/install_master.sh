@@ -1,10 +1,12 @@
 #!/bin/bash
 
-
-DOWNLOAD_DIR=./kubernetes-download
-WORK_DIR=/data/kubernetes
 NODE_IP=$(bash ../node_ip.sh)
+if [ ! ${NODE_IP}} ]; then
+  echo "node_ip.sh failed"
+  exit 1
+fi
 MASTER_ADDRESS=${NODE_IP}
+
 
 # 1
 # etcd servers
@@ -13,6 +15,9 @@ if [ ! $ETCD_SERVERS ]; then
   echo "ENTER ETCD_SERVERS(got by 'etcdctl member list') eg:http://192.168.100.50:2379,http://192.168.100.51:2379,http://192.168.100.52:2379"
   exit 1
 fi
+
+
+source define.sh
 
 
 rm -rf ${WORK_DIR}

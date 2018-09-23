@@ -1,6 +1,8 @@
 #!/bin/bash
 
 
+source define.sh
+
 # 1 
 # master address
 MASTER_ADDRESS="$1"
@@ -8,16 +10,6 @@ if [ ! $MASTER_ADDRESS ]; then
   echo "ENTER MASTER_ADDRESS eg:192.168.1.2"
   exit 1
 fi
-
-
-# kube scheduler conf
-cat <<EOF >/data/kubernetes/config/kube-scheduler.conf
-KUBE_SCHEDULER_ARGS=" \
---master=http://${MASTER_ADDRESS}:6444 \
---logtostderr=false \
---log-dir=/data/kubernetes/log \
---v=2"
-EOF
 
 
 # kube scheduler service
@@ -29,11 +21,10 @@ After=kube-apiserver.service
 Requires=kube-apiserver.service
 
 [Service]
-EnvironmentFile=/data/kubernetes/config/kube-scheduler.conf
 ExecStart=/usr/bin/kube-scheduler \
---master=http://${MASTER_ADDRESS}:6444 \
+--master=http://${MASTER_ADDRESS}:${APISERVER_INSECURE_PORT} \
 --logtostderr=false \
---log-dir=/data/kubernetes/log \
+--log-dir=${LOG_DIR} \
 --v=2
 Restart=on-failure
 LimitNOFILE=65536

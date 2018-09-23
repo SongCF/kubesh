@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+source define.sh
 
 # 1 
 # master address
@@ -18,29 +18,6 @@ if [ ! $ETCD_SERVERS ]; then
   exit 1
 fi
 
-SERVICE_CLUSTER_IP_RANGE="192.168.0.0/16"
-ADMISSION_CONTROL="NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,DefaultStorageClass,ResourceQuota"
-
-
-# apiserver.conf
-mkdir -p /etc/kubernetes/
-cat <<EOF >/data/kubernetes/config/kube-apiserver.conf
-KUBE_API_ARGS=" \
---storage-backend=etcd3 \
---etcd-servers=${ETCD_SERVERS} \
---bind-address=0.0.0.0 \
---secure-port=6443 \
---insecure-bind-address=0.0.0.0 \
---insecure-port=6444 \
---service-cluster-ip-range=${SERVICE_CLUSTER_IP_RANGE} \
---service-node-port-range=1-65535 \
---enable-admission-plugins=${ADMISSION_CONTROL} \
---allow-privileged=false \
---logtostderr=false \
---log-dir=/data/kubernetes/log \
---v=2"
-EOF
-
 
 # apiserver service
 cat <<EOF >/usr/lib/systemd/system/kube-apiserver.service
@@ -51,19 +28,18 @@ After=network.target
 After=etcd.service
 
 [Service]
-EnvironmentFile=/data/kubernetes/config/kube-apiserver.conf
 ExecStart=/usr/bin/kube-apiserver \
 --storage-backend=etcd3 \
 --etcd-servers=${ETCD_SERVERS} \
 --bind-address=0.0.0.0 \
---secure-port=6443 \
+--secure-port=${APISERVER_PORT} \
 --insecure-bind-address=0.0.0.0 \
---insecure-port=6444 \
+--insecure-port=${APISERVER_INSECURE_PORT} \
 --service-cluster-ip-range=${SERVICE_CLUSTER_IP_RANGE} \
 --service-node-port-range=1-65535 \
 --enable-admission-plugins=${ADMISSION_CONTROL} \
 --logtostderr=false \
---log-dir=/data/kubernetes/log \
+--log-dir=${LOG_DIR} \
 --v=2
 Restart=on-failure
 Type=notify

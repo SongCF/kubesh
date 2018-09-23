@@ -1,6 +1,8 @@
 #!/bin/bash
 
 
+source define.sh
+
 # 1 
 # master address
 MASTER_ADDRESS="$1"
@@ -9,17 +11,16 @@ if [ ! $MASTER_ADDRESS ]; then
   exit 1
 fi
 
-
-KUBE_APISERVER="http://${MASTER_ADDRESS}:6444"
+KUBE_APISERVER="http://${MASTER_ADDRESS}:${APISERVER_INSECURE_PORT}"
 
 # 设置集群参数
-kubectl config set-cluster default-cluster \
+kubectl config set-cluster ${CLUSTER_NAME} \
   --server=${KUBE_APISERVER} \
-  --kubeconfig=/data/kubernetes/config/kubeconfig.conf
+  --kubeconfig=${WORK_DIR}/config/kubeconfig.conf
 
-kubectl config set-context default-context \
-  --cluster=default-cluster \
-  --kubeconfig=/data/kubernetes/config/kubeconfig.conf
+kubectl config set-context ${CONTEXT_NAME} \
+  --cluster=${CLUSTER_NAME} \
+  --kubeconfig=${WORK_DIR}/config/kubeconfig.conf
 
 # 设置默认上下文
-kubectl config use-context default-context --kubeconfig=/data/kubernetes/config/kubeconfig.conf
+kubectl config use-context ${CONTEXT_NAME} --kubeconfig=${WORK_DIR}/config/kubeconfig.conf

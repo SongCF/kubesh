@@ -1,6 +1,7 @@
 #!/bin/bash
 
 
+source define.sh
 
 # 1 
 # master address
@@ -12,7 +13,7 @@ fi
 
 # 2
 # node address
-NODE_IP="$1"
+NODE_IP="$2"
 if [ ! $NODE_IP ]; then
   echo "ENTER NODE_IP eg:192.168.1.100"
   exit 1
@@ -24,26 +25,6 @@ echo "kubeconfig..."
 bash ./conf/kubeconfig.sh ${MASTER_ADDRESS}
 
 
-#TODO 
-DNS_SERVER_IP=192.168.0.2
-DNS_DOMAIN=cluster.default-cluster
-
-# kebelet conf
-cat <<EOF >/data/kubernetes/config/kubelet.conf
-KUBELET_ARGS=" \
---address=0.0.0.0 \
---port=10250 \
---hostname-override=${NODE_IP} \
---allow-privileged=false \
---kubeconfig=/data/kubernetes/config/kubeconfig.conf \
---cluster-dns=${DNS_SERVER_IP} \
---cluster-domain=${DNS_DOMAIN} \
---fail-swap-on=false \
---logtostderr=false \
---log-dir=/data/kubernetes/log \
---v=2"
-EOF
-
 
 # kubelet service
 cat <<EOF >/usr/lib/systemd/system/kubelet.service
@@ -53,18 +34,17 @@ After=docker.service
 Requires=docker.service
 
 [Service]
-EnvironmentFile=/data/kubernetes/config/kubelet.conf
 ExecStart=/usr/bin/kubelet \
 --address=0.0.0.0 \
 --port=10250 \
 --hostname-override=${NODE_IP} \
 --allow-privileged=false \
---kubeconfig=/data/kubernetes/config/kubeconfig.conf \
+--kubeconfig=${WORK_DIR}/config/kubeconfig.conf \
 --cluster-dns=${DNS_SERVER_IP} \
---cluster-domain=${DNS_DOMAIN} \
+--cluster-domain=${CLUSTER_NAME} \
 --fail-swap-on=false \
 --logtostderr=false \
---log-dir=/data/kubernetes/log \
+--log-dir=${LOG_DIR} \
 --v=2
 Restart=on-failure
 KillMode=process

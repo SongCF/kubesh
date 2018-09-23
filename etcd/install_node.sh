@@ -6,4 +6,4 @@
 
 # 2
 # run
-bash config.sh "$1" node "$2" 
+bash systemd_service.sh "$1" node "$2" 

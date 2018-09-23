@@ -1,8 +1,6 @@
 #!/bin/bash
 
 
-ETCD_DIR=./etcd-download
-WORK_DIR=/data/etcd
 LOCAL_IP=$(bash ../node_ip.sh)
 
 # 1
@@ -37,12 +35,16 @@ if [ "$CLUSTER_STATE" == "existing" ]; then
 fi
 
 
+source define.sh
+
+
 mkdir -p /usr/lib/systemd/system/
 systemctl stop etcd.service >/dev/null 2>&1
-cp ${ETCD_DIR}/etcd /usr/bin/
-cp ${ETCD_DIR}/etcdctl /usr/bin/
-rm -r ${WORK_DIR}
+
+rm -r ${WORK_DIR} >/dev/null 2>&1
 mkdir -p ${WORK_DIR}
+cp ${DOWNLOAD_DIR}/etcd /usr/bin/
+cp ${DOWNLOAD_DIR}/etcdctl /usr/bin/
 
 
 # etcd.conf

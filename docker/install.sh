@@ -1,14 +1,16 @@
 #!/bin/bash
 
 DOCKER_DIR=./docker-download
-WORK_DIR=/data/docker
-
+WORK_DIR=/usr/local/docker
+groupadd docker
 
 mkdir -p /usr/lib/systemd/system/
 systemctl stop docker.service >/dev/null 2>&1
-cp ${DOCKER_DIR}/* /usr/bin/
-rm -r ${WORK_DIR}
+
+rm -r ${WORK_DIR} >/dev/null 2>&1
 mkdir -p ${WORK_DIR}
+cp ${DOCKER_DIR}/* /usr/bin/
+# ln -sf ${WORK_DIR}/docker /usr/bin/docker
 
 
 
@@ -38,18 +40,14 @@ Requires=docker.socket
 
 [Service]
 Type=notify
-# the default is not to use systemd for cgroups because the delegate issues still
-# exists and systemd currently does not support the cgroup feature set required
-# for containers run by docker
-ExecStart=/usr/bin/dockerd -H fd://
+WorkingDirectory=${WORK_DIR}
+# EnvironmentFile=-${WORK_DIR}/docker.conf
+ExecStart=/usr/bin/dockerd -H fd:// \
+    --registry-mirror=https://wlathsyw.mirror.aliyuncs.com
 ExecReload=/bin/kill -s HUP $MAINPID
 LimitNOFILE=1048576
-# Having non-zero Limit*s causes performance problems due to accounting overhead
-# in the kernel. We recommend using cgroups to do container-local accounting.
 LimitNPROC=infinity
 LimitCORE=infinity
-# Uncomment TasksMax if your systemd version supports it.
-# Only systemd 226 and above support this version.
 #TasksMax=infinity
 TimeoutStartSec=0
 # set delegate yes so that systemd does not reset the cgroups of docker containers

@@ -1,6 +1,8 @@
 #!/bin/bash
 
 
+source define.sh
+
 # 1 
 # master address
 MASTER_ADDRESS="$1"
@@ -9,15 +11,6 @@ if [ ! $MASTER_ADDRESS ]; then
   exit 1
 fi
 
-
-# controller-manager conf
-cat <<EOF >/data/kubernetes/config/kube-controller-manager.conf
-KUBE_CTL_MGR_ARGS=" \
---master=http://${MASTER_ADDRESS}:6444 \
---logtostderr=false \
---log-dir=/data/kubernetes/log \
---v=2"
-EOF
 
 
 # controller-manager service
@@ -29,11 +22,10 @@ After=kube-apiserver.service
 Requires=kube-apiserver.service
 
 [Service]
-EnvironmentFile=/data/kubernetes/config/kube-controller-manager.conf
 ExecStart=/usr/bin/kube-controller-manager \
---master=http://${MASTER_ADDRESS}:6444 \
+--master=http://${MASTER_ADDRESS}:${APISERVER_INSECURE_PORT} \
 --logtostderr=false \
---log-dir=/data/kubernetes/log \
+--log-dir=${LOG_DIR} \
 --v=2                
 Restart=on-failure
 LimitNOFILE=65536
