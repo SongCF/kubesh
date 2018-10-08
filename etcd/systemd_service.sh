@@ -91,7 +91,8 @@ ExecStart=/usr/bin/etcd \\
 	--initial-advertise-peer-urls=\${ETCD_INITIAL_ADVERTISE_PEER_URLS} \\
 	--initial-cluster=\${ETCD_INITIAL_CLUSTER} \\
 	--initial-cluster-token=\${ETCD_INITIAL_CLUSTER_TOKEN} \\
-	--initial-cluster-state=\${ETCD_INITIAL_CLUSTER_STATE}
+	--initial-cluster-state=\${ETCD_INITIAL_CLUSTER_STATE} \\
+	--auto-compaction-retention=1
 
 [Install]
 WantedBy=multi-user.target
