@@ -13,7 +13,9 @@ k8s集群安装脚本
 
 # 常用命令
 
+```
 1.Create a cluster
+
 minikube version
 minikube start
 kubectl version
@@ -21,12 +23,14 @@ kubectl cluster-info
 kubectl get nodes
 
 2.Deploy an App
+
 kubectl get nodes --help
 kubectl run DEPLOYMENT_NAME --image=mysql:5.7 --port=8080
 kubectl get deployments
 kubectl get pods
 
 3.Explore your App
+
 * kubectl get - list resources
 * kubectl describe - show detailed information about a resource
 * kubectl logs - print the logs from a container in a pod
@@ -34,6 +38,7 @@ kubectl get pods
 kubectl proxy
 
 4.Expose your App publicly
+
 kubectl get services
 kubectl expose deployment/kubernetes-bootcamp --type="NodePort" --port 8080
 kubectl describe services/kubernetes-bootcamp
@@ -48,16 +53,18 @@ kubectl delete service -l run=kubernetes-bootcamp
 kubectl exec -ti $POD_NAME curl localhost:8080
 
 5.Scale your App
+
 kubectl scale deployments/kubernetes-bootcamp --replicas=4
 kubectl get pods -o wide
 kubectl describe deployments/kubernetes-bootcamp
 kubectl describe services/kubernetes-bootcamp
 
 6.Update your App
+
 kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=jocatalin/kubernetes-bootcamp:v2
 kubectl rollout status deployments/kubernetes-bootcamp //验证是否更新完成
 kubectl rollout undo deployments/kubernetes-bootcamp //取消更新/回退
-
+```
 
 
 # 参考文档
